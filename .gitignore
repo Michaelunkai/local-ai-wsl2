@@ -1,0 +1,26 @@
+# OS / editor noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs & temp
+*.log
+*.part
+*.tmp
+server.log
+
+# WSL / llama.cpp build artifacts (never committed)
+llama.cpp/
+build/
+models/
+*.gguf
+MTP/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
