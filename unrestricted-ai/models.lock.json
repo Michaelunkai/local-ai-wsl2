@@ -1,0 +1,21 @@
+[
+  {
+    "repository": "huihui-ai/Huihui-Qwen3.8-27B-abliterated-GGUF",
+    "revision": "3f101cd22b7999228bbd5d79a33975414eb9758b",
+    "directory": "qwen",
+    "alias": "local-qwen:27b",
+    "files": {
+      "Huihui-Qwen3.8-27B-abliterated-UD-IQ4_XS.gguf": "d83adbbbaace8acdfcfe28004f779326176b9df00b4ec99dc6c24d749723d3b9",
+      "mmproj-model-bf16.gguf": "c9a09064683620bea3d3bfed5d4462e1a97a7d2fff7e5045d6862a0a85eeb5b5"
+    }
+  },
+  {
+    "repository": "bartowski/cognitivecomputations_Dolphin3.0-Mistral-24B-GGUF",
+    "revision": "e06c915c2847a92c183407f4b5b9efb51af882a1",
+    "directory": "dolphin",
+    "alias": "local-dolphin:24b",
+    "files": {
+      "cognitivecomputations_Dolphin3.0-Mistral-24B-Q4_K_M.gguf": "6f193bbf98628140194df257c7466e2c6f80a7ef70a6ebae26c53b2f2ef21994"
+    }
+  }
+]

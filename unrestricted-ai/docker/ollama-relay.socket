@@ -1,0 +1,11 @@
+[Unit]
+Description=Project Docker bridge connection to Windows Ollama
+Requires=docker.service
+After=docker.service
+
+[Socket]
+ListenStream=172.17.0.1:11434
+NoDelay=true
+
+[Install]
+WantedBy=sockets.target

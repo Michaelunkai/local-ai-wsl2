@@ -1,0 +1,9 @@
+[Unit]
+Description=Local AI Docker bridge to authenticated Windows tools
+Requires=docker.service
+After=docker.service
+[Socket]
+ListenStream=172.17.0.1:19381
+NoDelay=true
+[Install]
+WantedBy=sockets.target

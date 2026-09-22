@@ -1,0 +1,22 @@
+{
+  "timestamp": 1790037867.1222522,
+  "selection": "Largest tested context with at least 90% of the best measured tokens/sec",
+  "models": {
+    "local-qwen:27b": {
+      "num_ctx": 8192,
+      "num_thread": 8,
+      "num_gpu": "Ollama automatic VRAM fit",
+      "tokens_per_second": 24.360047593442985,
+      "measured_vram_bytes": 13662620220,
+      "extended_alias": "local-qwen:27b-32k"
+    },
+    "local-dolphin:24b": {
+      "num_ctx": 8192,
+      "num_thread": 8,
+      "num_gpu": "Ollama automatic VRAM fit",
+      "tokens_per_second": 32.976296226068996,
+      "measured_vram_bytes": 14584098323,
+      "extended_alias": "local-dolphin:24b-32k"
+    }
+  }
+}

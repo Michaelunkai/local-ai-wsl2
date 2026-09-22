@@ -1,0 +1,6 @@
+*
+!docker/
+!docker/*.Dockerfile
+!docker/*.lock
+!scripts/
+!scripts/workspace_api.py

@@ -1,0 +1,9 @@
+[Unit]
+Description=Proxy project Docker Ollama traffic to WSL Windows loopback
+Requires=ollama-relay.socket
+After=ollama-relay.socket
+
+[Service]
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd 127.0.0.1:11434
+Restart=on-failure
+RestartSec=2

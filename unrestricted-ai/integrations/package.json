@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.0",
+    "@modelcontextprotocol/server-memory": "2026.8.31",
+    "@playwright/mcp": "0.0.82",
+    "@wonderwhy-er/desktop-commander": "0.2.51"
+  }
+}

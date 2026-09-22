@@ -1,0 +1,8 @@
+[Unit]
+Description=Local AI Windows tools loopback relay
+Requires=host-tools-relay.socket
+After=host-tools-relay.socket
+[Service]
+ExecStart=/usr/lib/systemd/systemd-socket-proxyd 127.0.0.1:19381
+Restart=on-failure
+RestartSec=2

@@ -1,0 +1,11 @@
+[Unit]
+Description=Project Docker connection to CPU embedding server
+Requires=docker.service
+After=docker.service
+
+[Socket]
+ListenStream=172.17.0.1:11436
+NoDelay=true
+
+[Install]
+WantedBy=sockets.target
