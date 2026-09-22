@@ -1,0 +1,81 @@
+{
+  "project": "F:\\backup\\UnrestrictedAi",
+  "timestamp": "2026-09-22T12:09:14.8446850+03:00",
+  "overall": "deployed_verified_supported_scope",
+  "goalComplete": false,
+  "webui": "http://localhost:3080",
+  "launcher": "F:\\backup\\UnrestrictedAi\\Setup-and-Open.ps1",
+  "models": [
+    "local-qwen:27b-32k",
+    "local-dolphin:24b-32k",
+    "local-qwen:27b",
+    "local-dolphin:24b",
+    "nomic-embed-text:latest"
+  ],
+  "runtime": {
+    "openWebUIHealthy": true,
+    "workspaceApiHealthy": true,
+    "supervisor": "Running",
+    "wslAnchor": "Running",
+    "networkWatchdog": "active; bridge, DNS and HTTPS recovery verified",
+    "index": {
+      "last_success": 1790068120.3114793,
+      "error": null,
+      "files": 92,
+      "chunks": 218
+    }
+  },
+  "verified": {
+    "bothModelsLongChats": true,
+    "bothModelsWindowsFilesAndCommands": true,
+    "bothModelsDesktopActions": true,
+    "existingProfile2BrowserActions": true,
+    "independentResearchBrowserActions": true,
+    "parallelWebResearchWithSources": true,
+    "sandboxExecution": true,
+    "documentArtifacts": true,
+    "automaticNetworkRepair": true,
+    "externalDnsAndHttps": true,
+    "persistentWslAnchor": true,
+    "fullStackSuite": true,
+    "fullStackTestCount": 26,
+    "exactLauncher": true,
+    "warmLauncherSeconds": 13.69
+  },
+  "desktopActionVerification": {
+    "direct": "logs/desktop-action-live-check.json",
+    "highLevel": "data/indexer/high-level-desktop-tools.json",
+    "qwen": "data/indexer/model-desktop-qwen.json",
+    "dolphin": "data/indexer/model-desktop-dolphin.json"
+  },
+  "browserVerification": {
+    "connected": true,
+    "profile": "User-confirmed profile 2",
+    "hiddenTabClick": "logs/browser-hidden-click-regression.json",
+    "independentBrowserClick": "logs/independent-browser-click-test.json",
+    "qwen": "data/indexer/default-capabilities-qwen-browser.json",
+    "dolphin": "data/indexer/default-capabilities-dolphin-browser.json"
+  },
+  "reliabilityVerification": {
+    "wslAnchor": "logs/wsl-anchor-test.json",
+    "networkWatchdog": "logs/network-watchdog-test.json",
+    "sandboxConcurrency": "data/indexer/sandbox-concurrency-diagnostic.json",
+    "fullStackSuite": "data/indexer/verification.json",
+    "launcher": "logs/final-launcher-verification.json"
+  },
+  "remaining": [
+    "No finite local stack can prove zero failures for every future PC or browser action; UAC, locked desktops, changed third-party UIs and unavailable services remain external constraints.",
+    "Every online tool, every relevant resource and zero performance cost are unbounded and mutually incompatible requirements; the verified capability families are documented in INTEGRATION-COVERAGE.md.",
+    "Email, calendar, cloud-drive and other account-specific native APIs still require their own endpoints, credentials and user authorization. Existing signed-in browser tabs are available through profile 2.",
+    "The historical intermittent sandbox timeout did not recur in nine concurrent jobs or the exact original repeat; its old diagnostic evidence is retained, but a historical cause was not established."
+  ],
+  "limits": [
+    "One large chat model is normally resident at a time; switching models can require a cold load.",
+    "32K context allocation is finite and automatic conversation summaries are lossy.",
+    "Dolphin failed a separate approximately 20K-token repetitive-input accuracy test.",
+    "Fresh hardware, future dependency changes and arbitrary external services require new verification."
+  ],
+  "audit": "COMPLETION-AUDIT.md",
+  "integrationCoverage": "INTEGRATION-COVERAGE.md",
+  "capabilityExpansionReport": "logs/capability-expansion-status.json"
+}

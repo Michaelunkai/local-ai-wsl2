@@ -2,11 +2,12 @@ $ErrorActionPreference='Stop'
 . "$PSScriptRoot\environment.ps1"
 
 $taskName='UnrestrictedAi-WSL-Anchor'
-$wsl=Join-Path $env:SystemRoot 'System32\wsl.exe'
-$arguments='-d UnrestrictedAi -u root -- sleep infinity'
-$action=New-ScheduledTaskAction -Execute $wsl -Argument $arguments -WorkingDirectory $StackRoot
+$powershell=Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
+$watchdog=Join-Path $PSScriptRoot 'wsl-anchor-watchdog.ps1'
+$arguments="-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File `"$watchdog`""
+$action=New-ScheduledTaskAction -Execute $powershell -Argument $arguments -WorkingDirectory $StackRoot
 $trigger=New-ScheduledTaskTrigger -AtLogOn -User ([Security.Principal.WindowsIdentity]::GetCurrent().Name)
-$settings=New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit ([TimeSpan]::Zero) -MultipleInstances IgnoreNew -RestartCount 999 -RestartInterval (New-TimeSpan -Minutes 1)
+$settings=New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit ([TimeSpan]::Zero) -MultipleInstances IgnoreNew -RestartCount 999 -RestartInterval (New-TimeSpan -Minutes 1)
 $existing=Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue
 $needsRegistration=-not $existing -or $existing.Actions.Execute -ne $action.Execute -or $existing.Actions.Arguments -ne $action.Arguments -or $existing.Actions.WorkingDirectory -ne $action.WorkingDirectory
 if($needsRegistration) {

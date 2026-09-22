@@ -9,7 +9,7 @@ try {
         }
     }
     & "$PSScriptRoot\scripts\start-host-tools.ps1"
-    & "$PSScriptRoot\scripts\bootstrap-windows.ps1" -FullVerification:$FullVerification
+    & "$PSScriptRoot\scripts\bootstrap-windows.ps1" -FullVerification:$FullVerification -Model $Model
     $required = @('local-qwen:27b', 'local-dolphin:24b', 'local-qwen:27b-32k', 'local-dolphin:24b-32k', 'nomic-embed-text:latest')
     $installed = (Invoke-RestMethod 'http://127.0.0.1:11434/api/tags' -TimeoutSec 15).models.name
     $missing = @($required | Where-Object { $_ -notin $installed })

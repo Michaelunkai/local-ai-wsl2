@@ -34,6 +34,8 @@ repair_network() {
 }
 build_inputs=(
  "$STACK_ROOT/.dockerignore"
+ "$STACK_ROOT/docker/open-webui.Dockerfile"
+ "$STACK_ROOT/docker/open-webui-context-compaction.py"
  "$STACK_ROOT/docker/workspace.Dockerfile"
  "$STACK_ROOT/docker/workspace.requirements.lock"
  "$STACK_ROOT/scripts/workspace_api.py"
@@ -49,7 +51,7 @@ sync_local_images() {
  current=$(build_fingerprint)
  [[ -f "$fingerprint_path" ]] && stored=$(<"$fingerprint_path")
  [[ "$stored" == "$current" ]] || rebuild=true
- for image in unrestricted-ai-workspace:local unrestricted-ai-sandbox:local; do
+ for image in unrestricted-ai-open-webui:local unrestricted-ai-workspace:local unrestricted-ai-sandbox:local; do
    docker image inspect "$image" >/dev/null 2>&1 || rebuild=true
  done
  if $rebuild; then

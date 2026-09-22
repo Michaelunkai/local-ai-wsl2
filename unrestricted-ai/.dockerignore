@@ -2,5 +2,6 @@
 !docker/
 !docker/*.Dockerfile
 !docker/*.lock
+!docker/open-webui-context-compaction.py
 !scripts/
 !scripts/workspace_api.py

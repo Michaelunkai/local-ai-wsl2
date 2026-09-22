@@ -18,6 +18,8 @@ Workspace tools are enabled on both models. Qwen uses the built-in code interpre
 
 Long chats automatically summarize older turns at an estimated 18,000 tokens for 32K presets (4,000 for 8K presets), retaining recent messages in the active context and the full original conversation in storage. Summaries preserve important facts but are lossy: restate critical details if needed. Both models passed twelve consecutive saved-chat turns including recall, file reading and Python execution. The regression deliberately lowers the threshold to 600 tokens after four turns to exercise repeated compaction; it is not a full-32K accuracy benchmark. See `logs/chat-repair-verification.json` and `data/indexer/long-chat-*.json`.
 
+The WebUI image includes a local context-compaction repair for tool-heavy branches: when a single earlier assistant turn fills the context before a third user turn, it compacts that branch before generating the next tool call. The summarizer input is bounded and has a local fallback, while the complete conversation stays in the saved chat. `scripts/verify-tool-call-budget.py` exercises this exact 32K `execute_python` continuation.
+
 ```powershell
 & F:\backup\UnrestrictedAi\run_ai_stack.ps1 start
 & F:\backup\UnrestrictedAi\run_ai_stack.ps1 status
@@ -73,6 +75,8 @@ The Jupyter sandbox has a read-only root, no infrastructure/model mount, an inte
 ## Recovery and maintenance
 
 The `UnrestrictedAi-Health` task starts at user logon and checks the stack every minute. It restarts failed services, reconciles this project's missing Docker forwarding rules without recreating its network or containers, and removes model runners whose project Ollama parent has exited. Web-facing containers use explicit redundant IPv4 DNS upstreams because this host's VirtioProxy-generated synthetic IPv6 resolvers are unreachable from Docker. The network fault regression verifies bridge recovery, public DNS, external HTTPS, local connectivity and continued sandbox isolation. Startup mutexes prevent concurrent launchers from racing. No repair removes persistent volumes or model files.
+
+The `UnrestrictedAi-WSL-Anchor` task runs a host-side watchdog that keeps the dedicated WSL2 distro alive and restarts its anchor if the distro exits. This preserves the Docker and relay services needed by the browser interface across ordinary WSL termination events.
 
 To intentionally stop automatic supervision and containers:
 

@@ -35,7 +35,7 @@ Dependency audit: the existing Desktop Commander tree reports four npm advisorie
 - Model-facing app open/focus and focused-editor typing tools remove guessed coordinates and verify fresh state.
 - The ordinary launcher uses a content fingerprint for the two locally built images. The final unchanged launch skipped builds and completed in 13.69 seconds.
 - Nine concurrent WebUI sandbox executions and the exact original sandbox execution check passed.
-- The final post-repair stack verifier passed all 26 model, research, retrieval, execution and tool-transport checks in one run.
+- The final post-repair stack verifier passed all 27 model, research, retrieval, execution and tool-transport checks in one run, including the 32K long-context `execute_python` continuation regression.
 
 ## Deliberate boundaries
 

@@ -1,4 +1,4 @@
-param([switch]$FullVerification)
+param([switch]$FullVerification, [string]$Model='local-qwen:27b-32k')
 $ErrorActionPreference='Stop'
 . "$PSScriptRoot\environment.ps1"
 foreach($name in @('scripts','docker','modelfiles','data','logs','tmp','runtime','ollama_models','hf_cache','pip_cache','docker_config','workspace')) {
@@ -42,4 +42,37 @@ if(-not $webuiReady){throw 'Open WebUI did not become healthy within the startup
 if($LASTEXITCODE -ne 0){throw 'WebUI preset configuration failed'}
 & "$PSScriptRoot\install-startup.ps1"
 if((Get-ScheduledTask -TaskName 'UnrestrictedAi-Health' -ErrorAction Stop).State -ne 'Running'){throw 'Health supervision is not running'}
-if($FullVerification) { & "$StackRoot\run_ai_stack.ps1" verify }
+if($FullVerification) {
+ & "$StackRoot\run_ai_stack.ps1" verify
+ $verificationExitCode=$LASTEXITCODE
+ $verificationReportPath=Join-Path $StackRoot 'data\indexer\verification.json'
+ $verificationReport=$null
+ if(Test-Path -LiteralPath $verificationReportPath) {
+  $verificationReport=Get-Content -Raw -LiteralPath $verificationReportPath | ConvertFrom-Json
+ }
+ $verificationPassed=($verificationExitCode -eq 0 -and $null -ne $verificationReport -and $verificationReport.passed -eq $true)
+ $testNames=@()
+ $failedTests=@()
+ if($null -ne $verificationReport -and $null -ne $verificationReport.tests) {
+  $testNames=@($verificationReport.tests.PSObject.Properties.Name)
+  $failedTests=@($verificationReport.tests.PSObject.Properties | Where-Object { $_.Value.pass -ne $true } | ForEach-Object Name)
+ }
+ $launcherRecord=[ordered]@{
+  passed=$verificationPassed
+  timestamp=(Get-Date).ToString('o')
+  script=(Join-Path $StackRoot 'Setup-and-Open.ps1')
+  model=$Model
+  fullStackVerificationExitCode=$verificationExitCode
+  fullStackVerificationPassed=$verificationPassed
+  fullStackTestCount=$testNames.Count
+  fullStackTestNames=$testNames
+  failedTests=$failedTests
+  verificationReport=$verificationReportPath
+  browserOpened=$true
+  allReadinessProbesPassed=$true
+ }
+ $launcherRecord | ConvertTo-Json -Depth 12 | Set-Content -LiteralPath (Join-Path $StackRoot 'logs\final-launcher-verification.json') -Encoding UTF8
+ if(-not $verificationPassed) {
+  throw "Full stack verification did not pass (exit=$verificationExitCode, failed=$($failedTests -join ', '))."
+ }
+}

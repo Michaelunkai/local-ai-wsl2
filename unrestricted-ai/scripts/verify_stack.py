@@ -1,5 +1,5 @@
 """Run inside workspace-api; failures are recorded individually and cause a nonzero exit."""
-import argparse, base64, json, os, struct, time, traceback, uuid, zlib
+import argparse, base64, json, os, struct, subprocess, sys, time, traceback, uuid, zlib
 from pathlib import Path
 import requests
 
@@ -161,6 +161,20 @@ def webui_tool_roundtrip(tool_id,model='local-qwen:27b'):
     assert_true(message.get('done') and 'SILVER-ORCHID-742' in text,'WebUI did not finish the tool response: '+text[-1000:])
     return {'tool_id':tool_id,'chat_id':chat_id,'answer_contains_verification_phrase':True,'message':message}
 
+def qwen_long_context_tool_call():
+    command=[sys.executable,'/project/scripts/verify-tool-call-budget.py','--model','local-qwen:27b-32k']
+    env={**os.environ,'WEBUI_URL':'http://open-webui:8080'}
+    result=subprocess.run(command,env=env,capture_output=True,text=True,timeout=900)
+    if result.returncode:
+        raise RuntimeError('Long-context tool-call regression failed: '+(result.stderr or result.stdout)[-2000:])
+    try:
+        report=json.loads(result.stdout)
+    except json.JSONDecodeError as error:
+        raise RuntimeError('Long-context tool-call regression returned invalid JSON: '+result.stdout[-1000:]) from error
+    assert_true(report.get('context_summary_count',0)>0,'No persisted summary before the long-context tool call')
+    assert_true('144' in report.get('second_content',''),'Long-context tool result was not completed')
+    return {'model':'local-qwen:27b-32k','summary_count':report['context_summary_count'],'second_usage':report.get('second_usage')}
+
 def live_context_answer():
     result=call('POST','http://workspace-api:8000/web/search',json={'query':'Python documentation official tutorial','limit':3})
     official=next(p for p in result['results'] if 'python.org' in p['url'])
@@ -239,6 +253,7 @@ test('web_search_crawl_model_answer',live_context_answer)
 test('webui_openapi_tool_roundtrip',lambda:webui_tool_roundtrip('server:workspace'))
 test('webui_mcp_tool_roundtrip',lambda:webui_tool_roundtrip('server:mcp:workspace-mcp'))
 test('dolphin_webui_tool_roundtrip',lambda:webui_tool_roundtrip('server:workspace','local-dolphin:24b'))
+test('qwen_long_context_tool_call',qwen_long_context_tool_call)
 REPORT['passed']=all(x['pass'] for x in REPORT['tests'].values())
 REPORT['completed_at']=time.time()
 Path('/state/verification-selected.json' if selected and not args.retry_failed else '/state/verification.json').write_text(json.dumps(REPORT,indent=2))
