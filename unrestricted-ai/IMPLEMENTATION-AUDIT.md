@@ -28,7 +28,7 @@ There is no single universal maximum setting: context, quality, memory and speed
 
 ## 5. Integrations and startup
 
-Implemented: persistent WSL anchor, Docker network watchdog, redundant explicit DNS for web-facing containers, stable Windows PowerShell supervisor, authenticated Windows host tools, profile 2 browser connection, separate research browser, local research stack and isolated Python/documents stack. The exact launcher passed after deployment and opened the default browser. The final post-repair verifier passed all 26 checks in one run.
+Implemented: persistent host-side WSL anchor watchdog, Docker network watchdog, redundant explicit DNS for web-facing containers, stable Windows PowerShell supervisor, authenticated Windows host tools, profile 2 browser connection, separate research browser, local research stack and isolated Python/documents stack. The exact launcher passed after deployment and opened the default browser. The final post-repair verifier passed all 27 checks in one run, including the 32K `execute_python` continuation regression.
 
 Account-specific native services still require actual endpoints, credentials and user authorization. They are not represented as connected without evidence.
 

@@ -1,6 +1,6 @@
 {
   "project": "F:\\backup\\UnrestrictedAi",
-  "timestamp": "2026-09-22T12:09:14.8446850+03:00",
+  "timestamp": "2026-09-22T13:55:08.8925157+03:00",
   "overall": "deployed_verified_supported_scope",
   "goalComplete": false,
   "webui": "http://localhost:3080",
@@ -38,7 +38,8 @@
     "externalDnsAndHttps": true,
     "persistentWslAnchor": true,
     "fullStackSuite": true,
-    "fullStackTestCount": 26,
+    "fullStackTestCount": 27,
+    "qwenLongContextToolCallRegression": true,
     "exactLauncher": true,
     "warmLauncherSeconds": 13.69
   },
